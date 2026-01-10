@@ -26,3 +26,8 @@ jobs:
       - name: Run tests
         run: |
           pytest -q
+
+      # NEW: Build the Docker image (artifact)
+      - name: Build Docker image
+        run: |
+          docker build -t my-python-app:${{ github.sha }} .
