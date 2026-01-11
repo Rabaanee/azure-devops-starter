@@ -6,8 +6,11 @@ on:
   pull_request:
 
 jobs:
-  test:
+  build:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
 
     steps:
       - name: Checkout
@@ -27,7 +30,14 @@ jobs:
         run: |
           pytest -q
 
-      # NEW: Build the Docker image (artifact)
+      - name: Log in to GitHub Container Registry
+        run: |
+          echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+
       - name: Build Docker image
         run: |
-          docker build -t my-python-app:${{ github.sha }} .
+          docker build -t ghcr.io/${{ github.actor }}/my-python-app:latest .
+
+      - name: Push Docker image
+        run: |
+          docker push ghcr.io/${{ github.actor }}/my-python-app:latest
