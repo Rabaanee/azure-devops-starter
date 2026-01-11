@@ -36,6 +36,7 @@ You can pull and run the image without cloning the repository:
 ```bash
 docker pull ghcr.io/rabaanee/my-python-app:latest
 docker run ghcr.io/rabaanee/my-python-app:latest
+```
 
 Technologies Used
 
